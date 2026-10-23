@@ -1,0 +1,133 @@
+
+/* Base page */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 32px;
+    background: #f3f5f9;
+    color: #18253b;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto 28px;
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -1px;
+}
+
+h2 {
+    margin: 28px 0 8px;
+    font-size: 25px;
+}
+
+/* Responsive product grid */
+.product-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 230px), 1fr)
+    );
+    gap: 24px;
+    align-items: stretch;
+}
+
+/* Product cards */
+.product-detail {
+    min-width: 0;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e6eaf0;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(24, 37, 59, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-detail:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(24, 37, 59, 0.11);
+}
+
+.product-detail h3 {
+    margin: 0 0 14px;
+    font-size: 19px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.product-detail p {
+    margin: 0;
+}
+
+/* Price */
+.product-detail p:first-of-type {
+    margin-bottom: 14px;
+    color: #18253b;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+/* Stock status */
+.product-detail p:last-of-type {
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: #e7f6ee;
+    color: #16845b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Smaller screens */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 16px;
+    }
+
+    .product-list {
+        gap: 14px;
+    }
+
+    .product-detail {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .product-detail h3 {
+        font-size: 16px;
+    }
+
+    .product-detail p:first-of-type {
+        font-size: 18px;
+    }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .product-detail {
+        transition: none;
+    }
+
+    .product-detail:hover {
+        transform: none;
+    }
+}
+.product-detail .in-stock {
+    background: #e7f6ee;
+    color: #16845b;
+}
+
+.product-detail .out-of-stock {
+    background: #fdeaea;
+    color: #c24141;
+}
