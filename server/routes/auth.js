@@ -2,6 +2,7 @@ import express from 'express'
 import pool from '../database.js';
 import bcrypt from 'bcrypt';
 import session, { Session } from 'express-session';
+
 const router = express.Router()
 
 router.get('/register',(req,res)=>{
@@ -107,12 +108,6 @@ return res.status(200).json({
 })
 })
 });
-// return res.status(200).json({
-//     id: result.rows[0].id,
-//     name: result.rows[0].name,
-//     email: result.rows[0].email,
-//     role: result.rows[0].role
-// });
 
 
 
@@ -134,5 +129,19 @@ function isAuthenticated(req, res, next) {
 // isAuthenticated()
 router.get('/profiles',isAuthenticated,(req,res)=>{
     res.send("hello")
+})
+
+router.post('/logout',(req,res)=>{
+    req.session.destroy((err)=>{
+        if (err){
+            return res.status(500).json({
+                err:"internal server error"
+            })
+        }
+        res.clearCookie('Candyland')
+        return res.status(200).json({
+   logout:"user has been logout"
+})
+    })
 })
  export default router
