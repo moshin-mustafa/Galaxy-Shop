@@ -131,3 +131,11 @@ h2 {
     background: #fdeaea;
     color: #c24141;
 }
+.style{
+    height: 30px;
+    width: 100px;
+    background-color: #ff1414;
+    position: absolute;
+    top: 45px;
+    right:  20px;
+}

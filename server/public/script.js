@@ -40,3 +40,14 @@ card.appendChild(status)
         //  container[0].appendchild(o)   
     }
 ff()
+const logoutBtn = document.getElementById('logout-btn');
+
+logoutBtn.addEventListener('click', async () => {
+    const response = await fetch('/auth/logout', {
+        method: 'POST'
+    });
+
+    if (response.ok) {
+        window.location.href = '/login.html';
+    }
+});

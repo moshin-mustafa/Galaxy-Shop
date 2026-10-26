@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Galaxy-Shop</title>
+    <link rel="stylesheet" href="/login.css">
+</head>
+<body>
+
+    <main class="login-page">
+
+        <section class="showcase-panel" aria-label="Galaxy-Shop introduction">
+        </section>
+
+        <section class="login-container">
+
+            <div class="brand">
+                <span class="brand-icon">🚀</span>
+                <span>Galaxy-<span class="brand-blue">Shop</span></span>
+            </div>
+
+            <h1>Welcome back</h1>
+            <p class="login-subtitle">
+                Sign in to discover your next favorite tech.
+            </p>
+
+            <form id="login-form">
+
+                <label for="email">Email address</label>
+                <div class="input-wrapper">
+                    <span class="input-icon" aria-hidden="true">✉</span>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <span class="input-icon" aria-hidden="true">♙</span>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" id="login-button">
+                    Sign in <span>→</span>
+                </button>
+
+                <div class="login-options">
+                    <a href="#" id="forgot-password">Forgot password?</a>
+                </div>
+
+                <div class="divider">
+                    <span></span>
+                    <small>or</small>
+                    <span></span>
+                </div>
+
+                <p class="login-footer">
+                    New to Galaxy-Shop?
+                    <a href="/auth/register">Create account</a>
+                </p>
+
+                <p id="login-message" role="status" aria-live="polite"></p>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="/login.js"></script>
+</body>
+</html>
