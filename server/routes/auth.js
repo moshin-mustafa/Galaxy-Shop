@@ -55,6 +55,9 @@ return res.status(201).json({
 
 
 })
+// router.get('/login',(req,res)=>{
+//         res.sendFile('login.html',{root:'public'})
+// })
 router.post('/login',async(req,res)=>{
 // At the end of the project, add a catch block to the login route to handle unexpected errors from database queries and password verification.
 try {
@@ -128,7 +131,7 @@ function isAuthenticated(req, res, next) {
 }
 // isAuthenticated()
 router.get('/profiles',isAuthenticated,(req,res)=>{
-    res.send("hello")
+    res.sendFile('hacked.html',{root:'public'})
 })
 
 router.post('/logout',(req,res)=>{
