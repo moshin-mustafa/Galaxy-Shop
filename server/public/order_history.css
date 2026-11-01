@@ -1,0 +1,308 @@
+
+/* =========================================
+   GALAXY SHOP — ORDER HISTORY
+   Premium E-commerce Dashboard
+========================================= */
+
+/* 1. Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #243b80;
+    --primary-dark: #192c63;
+    --background: #f4f6fb;
+    --surface: #ffffff;
+    --text-main: #172033;
+    --text-secondary: #69758a;
+    --border: #e7eaf1;
+    --blue-light: #edf2ff;
+    --shadow: 0 8px 30px rgba(25, 44, 99, 0.055);
+}
+
+body {
+    min-height: 100vh;
+    padding: 55px 35px;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(circle at 10% 0%, #e9efff 0, transparent 32%),
+        var(--background);
+    color: var(--text-main);
+}
+
+/* 2. Main order history layout */
+#main-div {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 25px;
+
+    transition: 0.3s ease;
+}
+
+/* Page heading */
+#main-div::before {
+    content: "Your Order History";
+    grid-column: 1 / -1;
+    display: block;
+
+    font-size: 29px;
+    font-weight: 750;
+    letter-spacing: -0.8px;
+    color: var(--text-main);
+
+    margin-bottom: 9px;
+}
+
+/* 3. Individual order card */
+.hc {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+
+    padding: 27px;
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 17px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        opacity 0.3s ease,
+        filter 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Decorative top border */
+.hc::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(
+        90deg,
+        #243b80,
+        #6689e8
+    );
+}
+
+.hc:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(25, 44, 99, 0.09);
+}
+
+/* 4. Order ID */
+.hc > .id:first-of-type {
+    font-size: 18px;
+    font-weight: 750;
+    color: var(--primary-dark);
+    letter-spacing: 0.2px;
+}
+
+/* 5. Order date */
+.Date {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* 6. Payment status */
+.payment_status {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+
+    padding: 7px 13px;
+
+    border-radius: 30px;
+    background: #fff6df;
+    color: #96630b;
+
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+}
+
+/* 7. Total price */
+.total_price {
+    padding-top: 17px;
+    border-top: 1px solid var(--border);
+
+    font-size: 23px;
+    font-weight: 750;
+    color: var(--primary);
+
+    letter-spacing: -0.5px;
+}
+
+/* 8. Details button */
+.view-detail {
+    width: 100%;
+    border: none;
+    border-radius: 9px;
+
+    padding: 13px 18px;
+
+    background: var(--primary);
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 650;
+    letter-spacing: 0.2px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.view-detail:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 5px 15px rgba(36, 59, 128, 0.2);
+}
+
+.view-detail:focus {
+    outline: 3px solid rgba(74, 111, 210, 0.25);
+    outline-offset: 3px;
+}
+
+/* 9. Product details */
+.hc > .view-detail ~ .id {
+    padding: 4px 0;
+
+    font-size: 14px;
+    font-weight: 650;
+    color: #34415a;
+}
+
+.price_at_purchase {
+    padding: 12px 14px;
+
+    background: #f0f4ff;
+    border-radius: 9px;
+
+    color: #294a9b;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.price_at_purchase::before {
+    content: "Price at purchase: ";
+    color: var(--text-secondary);
+    font-weight: 450;
+}
+
+.quantity {
+    display: inline-flex;
+    align-self: flex-start;
+
+    padding: 8px 13px;
+
+    background: #edf8f2;
+    border-radius: 30px;
+
+    color: #23764b;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.quantity::before {
+    content: "Quantity: ";
+    margin-right: 4px;
+    font-weight: 450;
+}
+
+/* =========================================
+   10. FOCUS EFFECT — ORDER DETAILS
+========================================= */
+
+/* Blur other order cards while a Details button has focus */
+#main-div:focus-within .hc:not(:focus-within) {
+    filter: blur(5px);
+    opacity: 0.25;
+    transform: scale(0.97);
+    pointer-events: none;
+}
+
+/* Highlight selected card */
+.hc:focus-within {
+    z-index: 2;
+    box-shadow: 0 15px 45px rgba(25, 44, 99, 0.13);
+    border-color: #aabce9;
+}
+
+/* Blur the selected order's summary */
+.hc:focus-within > .id:first-of-type,
+.hc:focus-within > .Date,
+.hc:focus-within > .payment_status,
+.hc:focus-within > .total_price {
+    filter: blur(5px);
+    opacity: 0.25;
+    transition: 0.3s ease;
+}
+
+/* Keep button and product details clear */
+.hc:focus-within > .view-detail,
+.hc:focus-within > .view-detail ~ .id,
+.hc:focus-within > .price_at_purchase,
+.hc:focus-within > .quantity {
+    filter: none;
+    opacity: 1;
+}
+
+/* =========================================
+   11. Responsive design
+========================================= */
+
+@media (max-width: 800px) {
+    body {
+        padding: 35px 22px;
+    }
+
+    #main-div {
+        grid-template-columns: 1fr;
+        max-width: 550px;
+    }
+
+    #main-div::before {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 25px 14px;
+    }
+
+    #main-div {
+        gap: 18px;
+    }
+
+    .hc {
+        padding: 22px;
+        border-radius: 13px;
+    }
+
+    .total_price {
+        font-size: 21px;
+    }
+}
