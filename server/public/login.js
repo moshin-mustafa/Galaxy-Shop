@@ -3,7 +3,7 @@
 const form = document.getElementById('login-form');
 
 form.addEventListener('submit', async (event) => {
-    // Stop the default form submission here
+//    working on improved login redirections
 event.preventDefault();
 console.log("Login form submitted");
     let log= await fetch('/auth/login',{
