@@ -1,5 +1,13 @@
-
-
+const order_prams=new URLSearchParams(window.location.search)
+const orderhistory=order_prams.get("orderhistory")
+if (orderhistory){
+    alert("please loggin to visit the order history")
+}
+const parms = new URLSearchParams(window.location.search)
+const cart= parms.get("cart")
+if (cart){
+    alert("please loggin to vist the cart")
+}
 const form = document.getElementById('login-form');
 
 form.addEventListener('submit', async (event) => {
