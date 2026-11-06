@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
-        <%- include("navbar.ejs") %>
+        <%- include("partials/navbar.ejs") %>
+        <main>
+        <h1>Galaxy-Shop</h1>
+        <h2>Our Products</h2>
+    </main>
+    <section id="product-list" class="product-list">
+    </section>
+    <button id="logout-btn" class="style">Logout</button>
+  <script src="/script.js"></script>
+   <script src="/postreq.js"></script> 
 </body>
 </html>
