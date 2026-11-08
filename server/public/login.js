@@ -32,7 +32,7 @@ body:JSON.stringify({
         console.log(login)
 // console.log(log.status);
 // console.log(await log.text());
-         window.location.href = '/index.html'
+         window.location.href = '/'
     }
     else {
   let login= await log.json()
