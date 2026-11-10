@@ -40,5 +40,55 @@ try {
         error:"internal server error "
     })
 }
+
+})
+router.patch('/update/:product_id',async(req,res)=>{
+    try {
+        let product_id=req.params.product_id
+     console.log(product_id)
+    if(!product_id || product_id== false){
+       return res.status(400).json({
+            
+            
+            error:"invalid product"
+        })
+    }
+     let {name,category,price,stock_quantity } = req.body
+   
+
+    let p_name = await pool.query(
+        'UPDATE products SET name=$1    WHERE id =$2 Returning *',
+        [name,product_id]
+
+    )
+    let p_category = await pool.query(
+        'UPDATE products SET category=$1 WHERE id=$2 Returning *',
+        [category,product_id]
+
+    )
+    let p_price = await pool.query(
+        'UPDATE products SET price=$1 WHERE id =$2 Returning *',
+        [price,product_id]
+
+    )
+    let p_stock_quantity = await pool.query(
+        'UPDATE products SET stock_quantity=$1 WHERE id =$2 Returning *',
+        [stock_quantity,product_id]
+
+    )
+    res.status(201).json({
+        p_name:p_name.rows[0],
+        p_category:p_category.rows[0],
+        p_price:p_price.rows[0],
+        p_stock_quantity:p_stock_quantity.rows[0]
+    })   
+    } catch (error) {
+        res.status(500).json({
+            message:"internal server error"
+        })
+        
+    }
+
+
 })
  export default router
