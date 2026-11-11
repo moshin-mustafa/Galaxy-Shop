@@ -46,7 +46,7 @@ router.patch('/update/:product_id',async(req,res)=>{
     try {
         let product_id=req.params.product_id
      console.log(product_id)
-    if(!product_id || product_id== false){
+    if(!product_id || Number(product_id)<=0||!Number.isInteger(Number(product_id))){
        return res.status(400).json({
             
             
@@ -54,34 +54,24 @@ router.patch('/update/:product_id',async(req,res)=>{
         })
     }
      let {name,category,price,stock_quantity } = req.body
-   
-
+   if (req.body.name !== undefined||req.body.category!==undefined ||req.body.price!==undefined ||req.body.stock_quantity) {
+    // Name was supplied
     let p_name = await pool.query(
-        'UPDATE products SET name=$1    WHERE id =$2 Returning *',
-        [name,product_id]
-
-    )
-    let p_category = await pool.query(
-        'UPDATE products SET category=$1 WHERE id=$2 Returning *',
-        [category,product_id]
-
-    )
-    let p_price = await pool.query(
-        'UPDATE products SET price=$1 WHERE id =$2 Returning *',
-        [price,product_id]
-
-    )
-    let p_stock_quantity = await pool.query(
-        'UPDATE products SET stock_quantity=$1 WHERE id =$2 Returning *',
-        [stock_quantity,product_id]
-
-    )
-    res.status(201).json({
+        'UPDATE products SET name=COALESCE($1, name),category=COALESCE($2, category) ,price=COALESCE($3, price), stock_quantity=COALESCE($4, stock_quantity)  WHERE id =$5 Returning *',
+        [name,category,price,stock_quantity,product_id]
+    
+    )   
+    res.status(200).json({
         p_name:p_name.rows[0],
-        p_category:p_category.rows[0],
-        p_price:p_price.rows[0],
-        p_stock_quantity:p_stock_quantity.rows[0]
+        
     })   
+}
+else{
+    return res.status(401).json({
+        error:"filed can not be empty"
+    })
+}
+
     } catch (error) {
         res.status(500).json({
             message:"internal server error"
