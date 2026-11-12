@@ -54,13 +54,18 @@ router.patch('/update/:product_id',async(req,res)=>{
         })
     }
      let {name,category,price,stock_quantity } = req.body
-   if (req.body.name !== undefined||req.body.category!==undefined ||req.body.price!==undefined ||req.body.stock_quantity) {
+   if (req.body.name !== undefined&&name.trim()==""||req.body.category!==undefined&&category.trim()=="" ||req.body.price!==undefined&&(!Number.isFinite(Number(price))|| price<=0) ||req.body.stock_quantity!==undefined&&(!Number.isInteger(Number(stock_quantity))||stock_quantity<0)) {
     // Name was supplied
     let p_name = await pool.query(
         'UPDATE products SET name=COALESCE($1, name),category=COALESCE($2, category) ,price=COALESCE($3, price), stock_quantity=COALESCE($4, stock_quantity)  WHERE id =$5 Returning *',
         [name,category,price,stock_quantity,product_id]
     
     )   
+        if(p_name.rowCount===0){
+            return res.status(404).json({
+                error:"not founf"
+            })
+        }
     res.status(200).json({
         p_name:p_name.rows[0],
         
