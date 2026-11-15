@@ -5,6 +5,7 @@
 import express from 'express'
 import pool from '../database.js';
 const  router=express.Router()
+
 router.get('/',async(req,res)=>{
 if(!req.session.userId){
     return res.status(401).json({
@@ -31,6 +32,10 @@ res.status(200).json({
         order_items:order_items.rows
 })
 })
+router.get('/ejs',async(req,res)=>{
+    res.render('order_history')
+})
+
  router.post('/:orderId/reorder', async (req, res) => {
     // Your reorder logic goes here
     let re_order= await pool.query(
