@@ -7,11 +7,14 @@ add.innerText='Add new products'
         let category = document.createElement('input')
         let price = document.createElement('input')
         let stock_quantity = document.createElement('input')
+        let image= document.createElement('input')
         let save = document.createElement("button")
+
         category.placeholder ="Enter category"
         namee.placeholder ="Enter name"
         price.placeholder ="Enter price "
         stock_quantity.placeholder ="Enter Stock Quantity "
+        image.placeholder='enter image'
 main.appendChild(add)
 async function addi_product() {
     add.addEventListener('click',()=>{
@@ -24,6 +27,7 @@ async function addi_product() {
         main.appendChild(category)
         main.appendChild(price)
         main.appendChild(stock_quantity)
+        main.appendChild(image)
         main.appendChild(save)
         save.innerText="save "
         save.addEventListener('click',async()=>{
