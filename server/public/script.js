@@ -10,7 +10,9 @@
 
 // to add css so if i click outside the box the box should go to its s]normal shpae 
 console.log("script.js is running");
+
 let product= "/products"
+
 async   function ff() {
         
         let profile= await fetch('/auth/profiles',{
@@ -30,6 +32,7 @@ console.log("test")
         let container= document.getElementById("product-list")
     for (let i=0 ;i<collection.length;i++){
         let cart = document.createElement('button')
+         let view= document.createElement('button')
         // if (authadmin==true){
         //     let update = document.createElement("button")
         //     update.innerText="update"
@@ -46,15 +49,26 @@ card.setAttribute("class" ,"product-detail")
 
 let name = document.createElement("h3")
 name.innerText=item.name
+name.setAttribute("class","name elements")
 let price = document.createElement("p")
 price.innerText="Rs."+item.price
+price.setAttribute("class","price elements")
+let image= document.createElement('img')
+image.src=item.img_url
+image.alt="product_photo"
+image.setAttribute("class","image main")
+
+console.log(image)
 container.appendChild(card)
+card.appendChild(image)
 card.appendChild(name)
 card.appendChild(price)
 cart.innerText="Add to cart"
+cart.setAttribute("class","cart elements")
 
 
 let status= document.createElement("P")
+status.setAttribute("class","status elements")
 if(item.stock_quantity>0){
 
 status.innerText="Instock"
@@ -81,7 +95,7 @@ let adding_item= await add_to_cart.json()
 if(add_to_cart.ok==true){
 
     cart.innerText="Add more"
-    let view= document.createElement('button')
+   
     view.innerText="View cart"
     view.addEventListener('click',()=>{
 
@@ -130,6 +144,11 @@ let u = await  fetch(product)
            let price_a = document.createElement('p')
     let stock_quantity = document.createElement('p')
     let category= document.createElement('p')
+    let image= document.createElement('input')
+    image.type="file"
+      image.setAttribute("accept", "image/jpeg,image/png,image/webp")
+            
+
     price_a.innerText="update price"
     stock_quantity.innerText="update stock_quantity"
     category.innerText="update category"
@@ -137,11 +156,15 @@ let u = await  fetch(product)
     let save= document.createElement("button")
 save.innerText="save"
     for (let i=0 ;i<collection.length;i++){
+
         // let cart = document.createElement('button')// to create a cart and will remve this for admin
-let edit =document.createElement('button') 
+
+        let edit =document.createElement('button') 
+
 
 console.log(collection[i])
 let item =collection[i]
+
 
 console.log(item.id)
 
@@ -166,6 +189,7 @@ edit.addEventListener('click',async()=>{
    card.append   (price_a)
   card.append   (stock_quantity)
   card.append   (category)
+  card.append(image)
   name_a.addEventListener("click",()=>{// ise tra price aur stck k lea b kar na ha 
     
     card.appendChild(input)
@@ -256,6 +280,7 @@ let update = await fetch(`/admin/update/${item.id}`,{
     })
     
 })
+
 let new_update= await update.json()
 if (!update.ok) {
     console.log(new_update.error)
@@ -267,10 +292,32 @@ else{
         category.innerText="update category"
     }, 4000);
 }
-})
+
 })
 
 })
+card.appendChild(save)
+// card.appendChild(   image)
+save.addEventListener('click',async()=>{
+const formdata= new FormData()
+formdata.append("image",image.files[0])
+        let update = await fetch(`/admin/update/${item.id}`,{
+method:"PATCH",
+body:formdata
+
+
+
+})
+let update_image= await update.json()
+    if (!update.ok) {
+        // console.log(update_image.error)
+        console.error(update_image)
+        
+    }
+    })
+
+})
+
  
 
 
@@ -299,6 +346,7 @@ card.append(edit)
        
         //  container[0].appendchild(o)   
     }
+    
 ff()
 const logoutBtn = document.getElementById('logout-btn');
 
