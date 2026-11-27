@@ -1,7 +1,8 @@
 import express from 'express'
 import pool from '../database.js';
 import bcrypt from 'bcrypt';
-import session, { Session } from 'express-session';
+
+import jwt from "jsonwebtoken"
 
 const router = express.Router()
 
@@ -61,6 +62,7 @@ return res.status(201).json({
 router.post('/login',async(req,res)=>{
 // At the end of the project, add a catch block to the login route to handle unexpected errors from database queries and password verification.
 try {
+    let token
     const{email,password}=req.body
       if (!email || !password) {
             return res.status(400).json({
@@ -102,15 +104,32 @@ if (err){
             err:"Internal server error"
         })
 }
+token=jwt.sign(
+    {
+        userId:result.rows[0].id,
+        role:result.rows[0].role
+    },
+    
+        process.env.jwt_secret
+    ,
+    {
+expiresIn:"15m"
+    }
+)
 
 return res.status(200).json({
     id:result.rows[0].id,
     name:result.rows[0].name,
     email:result.rows[0].email,
-    role:result.rows[0].role
+    role:result.rows[0].role,
+    token:token
 })
 })
 });
+router.get('/jwt-profile', varifyToken,(req, res)=> {
+    res.json({
+        user: req.user
+    })});
 
 
 
@@ -119,6 +138,7 @@ return res.status(200).json({
     res.status(500).json({error:"database server error"})
 }
 })
+
 function isAuthenticated(req, res, next) {
     // Your authentication check goes here
 
@@ -129,10 +149,55 @@ function isAuthenticated(req, res, next) {
    }
   next();
 }
-// isAuthenticated()
-router.get('/profiles',isAuthenticated,(req,res)=>{
-    res.sendFile('hacked.html',{root:'public'})
+    function varifyToken(req,res,next) {
+    
+        if(!req.headers.authorization){
+            return  res.status(401).json({
+                err:"token does not exsist"
+            })
+        }
+        let check_header= req.headers.authorization.split(' ')[1]
+        if (!check_header) {
+    return res.status(401).json({
+        err: "Token is missing"
+    });
+}
+jwt.verify(check_header,process.env.jwt_secret,function(err,decoded){
+
+    if(err){
+       return res.status(401).json({
+            err:"invalid"
+        })
+
+    }
+    req.user=decoded
+        next()
+    
 })
+            
+     
+        
+        
+    }
+// isAuthenticated()
+router.get('/profiles',varifyToken,isAuthenticated,async(req,res)=>{
+    // res.sendFile('hacked.html',{root:'public'})
+    
+   let admin= req.session.userId
+//   let  {id,name,email,role}=req.body
+    admin = await pool.query(
+        'select id,name,email,role from users where id=$1 ',
+        [admin]
+    )
+    return res.status(200).json({
+        id:admin.rows[0].id,
+        name:admin.rows[0].name,
+        email:admin.rows[0].email,
+        role:admin.rows[0].role
+      
+    })
+})
+
 
 router.post('/logout',(req,res)=>{
     req.session.destroy((err)=>{
@@ -146,5 +211,8 @@ router.post('/logout',(req,res)=>{
    logout:"user has been logout"
 })
     })
+    
 })
+
+
  export default router
